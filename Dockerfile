@@ -1,4 +1,4 @@
-FROM gitlab.nj-itc.com.cn:4000/root/ubuntu:16.04
+FROM ubuntu:16.04
 ADD . /idcardocr
 ADD tessdata/. /usr/share/tesseract-ocr/tessdata
 WORKDIR /idcardocr
