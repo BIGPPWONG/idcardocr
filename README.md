@@ -2,28 +2,28 @@
 可识别身份证上所有信息：姓名，性别，民族，出生日期，住址，身份证号码
 # 依赖：
 > 本项目在Ubuntu 16.04基于tesseract 3.04，OpenCV2进行开发<br>
-> ##apt依赖安装：<br>
+> apt依赖安装：<br>
 >`sudo apt install tesseract-ocr=3.04.01-4 tesseract-ocr-chi-sim python python-tk python-pip libsm6 libxext6` <br>
-> ##Python依赖安装：<br>
+> Python依赖安装：<br>
 >`sudo pip install Pillow==5.0.0 numpy==1.14.1 opencv-contrib-python==3.4.0.12 pytesseract==0.2.0 matplotlib==2.1.2`<br>
-> ##tessdata配置：<br>
+> tessdata配置：<br>
 > `sudo cp tessdata/* /usr/share/tesseract-ocr/tessdata`<br>
 # 使用方法：
-> ##识别本地图片<br>
+> 识别本地图片<br>
 > `import idcard_recognize;print idcard_recognize.process('testimages/3.jpg')`<br>
-> ##http_server远程接收图片<br>
+> http_server远程接收图片<br>
 > `import idcard_recognize;
 idcard_recognize.http_server()`  <br>
 > 默认监听端口为8080
->> ###测试:  <br>
->>> ####使用curl向服务器发送图片:  <br>
+>> 测试:  <br>
+>>> 使用curl向服务器发送图片:  <br>
 >>>`curl --request POST \
   --url http://127.0.0.1:8080 \
   --header 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
   --form 'pic=@./testimages/3.jpg'`  <br>
->>> ####使用Postman：  <br>
+>>> 使用Postman：  <br>
 >>> ![avatar](postman.jpg)
-> ##Docker运行http_server:  <br>
+> Docker运行http_server:  <br>
 > `docker build -t ocrserver .;docker run -d -p 8080:8080 http_server`  <br>
 > 测试方法同上<br>
 # 性能<br>
