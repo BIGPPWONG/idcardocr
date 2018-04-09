@@ -1,5 +1,5 @@
 # 第二代身份证信息识别
-可识别身份证上所有信息：姓名，性别，民族，出生日期，住址，身份证号码
+可识别身份证上所有信息：姓名，性别，民族，出生日期，住址，身份证号码。提供Docker镜像部署方式
 # 依赖：
 > 本项目在Ubuntu 16.04基于tesseract 3.04，OpenCV2进行开发<br>
 > apt依赖安装：<br>
@@ -16,7 +16,7 @@
 idcard_recognize.http_server()`  <br>
 > 默认监听端口为8080 <br><br>
 > Docker运行http_server:  <br>
-> `docker build -t ocrserver .;docker run -d -p 8080:8080 http_server`  <br>
+> `docker pull raymondwong/idcardocr;docker run -d -p 8080:8080 http_server`  <br>
 >> 测试:  <br>
 >>> 使用curl向服务器发送图片:  <br>
 >>>`curl --request POST \
