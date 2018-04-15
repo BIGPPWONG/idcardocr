@@ -16,7 +16,7 @@
 idcard_recognize.http_server()`  <br>
 > 默认监听端口为8080 <br><br>
 > Docker运行http_server:  <br>
-> `docker pull raymondwong/idcardocr;docker run -d -p 8080:8080 http_server`  <br>
+> `docker pull raymondwong/idcardocr;docker run -d -p 8080:8080 raymondwong/idcardocr`  <br>
 >> 测试:  <br>
 >>> 使用curl向服务器发送图片:  <br>
 >>>`curl --request POST \
