@@ -9,14 +9,16 @@ class findidcard:
         pass
 
     #img1为身份证模板, img2为需要识别的图像
-    def find(self, img1_name, img2_name):
+    def find(self, img2_name):
+        print(u'进入身份证模版匹配流程...')
+        img1_name = 'idcard_mask.jpg'
         MIN_MATCH_COUNT = 10
-        #idocr = idcardocr.idcardocr()
         img1 = cv2.UMat(cv2.imread(img1_name, 0)) # queryImage in Gray
         img1 = self.img_resize(img1, 640)
-        #self.showimg(img1)
+        # self.showimg(img1)
         #img1 = idocr.hist_equal(img1)
         img2 = cv2.UMat(cv2.imread(img2_name, 0))  # trainImage in Gray
+        # print(img2.get().shape)
         img2 = self.img_resize(img2, 1920)
         #img2 = idocr.hist_equal(img2)
         img_org = cv2.UMat(cv2.imread(img2_name))
@@ -36,9 +38,6 @@ class findidcard:
         flann = cv2.FlannBasedMatcher(index_params, search_params)
         matches = flann.knnMatch(des1,des2,k=2)
 
-        t2 = round(time.time()*1000)
-        print 'time:%s'%(t2-t1)
-
         # store all the good matches as per Lowe's ratio test.
         #两个最佳匹配之间距离需要大于ratio 0.7,距离过于相似可能是噪声点
         good = []
@@ -54,17 +53,11 @@ class findidcard:
             matchesMask = mask.ravel().tolist()
             #使用转换矩阵M计算出img1在img2的对应形状
             h,w = cv2.UMat.get(img1).shape
-            pts = np.float32([ [0,0],[0,h-1],[w-1,h-1],[w-1,0] ]).reshape(-1,1,2)
-            dst = cv2.perspectiveTransform(pts,M)
-
-            img2 = cv2.polylines(img2,[np.int32(dst)],True,255,3, cv2.LINE_AA)
-            #self.showimg(img2)
-            #进行图像矫正（透视变换）
-            M_r, mask_r = cv2.findHomography(dst, pts, 0,5.0)
+            M_r=np.linalg.inv(M)
             im_r = cv2.warpPerspective(img_org, M_r, (w,h))
-            #self.showimg(im_r)
+            # self.showimg(im_r)
         else:
-            print "Not enough matches are found - %d/%d" % (len(good),MIN_MATCH_COUNT)
+            print("Not enough matches are found - %d/%d" % (len(good),MIN_MATCH_COUNT))
             matchesMask = None
 
         #draw_params = dict(matchColor = (0,255,0), # draw matches in green color
@@ -73,6 +66,8 @@ class findidcard:
         #           flags = 2)
         #img3 = cv2.drawMatches(img1,kp1,img2,kp2,good,None,**draw_params)
         #plt.imshow(img3, 'gray'),plt.show()
+        t2 = round(time.time() * 1000)
+        print(u'查找身份证耗时:%s' % (t2 - t1))
         return im_r
 
 
@@ -89,10 +84,10 @@ class findidcard:
         height = size[0]
         width = size[1]
         height = height * dwidth / width
-        crop = cv2.resize(src=crop, dsize=(dwidth, height), interpolation=cv2.INTER_CUBIC)
+        crop = cv2.resize(src=crop, dsize=(dwidth, int(height)), interpolation=cv2.INTER_CUBIC)
         return crop
 
 if __name__=="__main__":
     idfind = findidcard()
-    result = idfind.find('idcard_mask.jpg', '9.jpg')
-    idfind.showimg(result)
+    result = idfind.find('idcard_mask.jpg', 'testimages/9.jpg')
+    #idfind.showimg(result)
