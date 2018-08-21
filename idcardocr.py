@@ -13,7 +13,7 @@ pixel_x = int(x * 3840)
 print(x, pixel_x)
 
 #mode0:识别姓名，出生日期，身份证号； mode1：识别所有信息
-def idcardocr(imgname, mode=0):
+def idcardocr(imgname, mode=1):
         print(u'进入身份证光学识别流程...')
         if mode==1:
             # generate_mask(x)
