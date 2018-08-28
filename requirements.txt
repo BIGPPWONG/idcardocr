@@ -1,0 +1,11 @@
+cycler==0.10.0
+kiwisolver==1.0.1
+matplotlib==2.2.2
+numpy==1.14.5
+opencv-contrib-python==3.4.2.16
+Pillow==5.2.0
+pyparsing==2.2.0
+pytesseract==0.2.4
+python-dateutil==2.7.3
+pytz==2018.5
+six==1.11.0
