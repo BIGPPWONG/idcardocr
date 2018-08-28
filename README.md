@@ -6,7 +6,7 @@
 > apt依赖安装：<br>
 >`sudo apt install python3 python3-pip tesseract-ocr tesseract-ocr-chi-sim tzdata libsm6 libxext6 python3-tk -y` <br><br>
 > Python依赖安装：<br>
->`sudo pip3 install -r /idcardocr/requirements.txt`<br><br>
+>`sudo pip3 install -r idcardocr/requirements.txt`<br><br>
 > tessdata配置：<br>
 > `sudo cp tessdata/* /usr/share/tesseract-ocr/tessdata`<br>
 # 使用方法：
