@@ -2,11 +2,11 @@
 可识别身份证上所有信息：姓名，性别，民族，出生日期，住址，身份证号码。提供Docker镜像部署方式
 # 2018/8/21 更新，应该较大提升了准确率
 # 依赖：
-> 本项目在Ubuntu 16.04基于tesseract 3.04，OpenCV2进行开发<br>
+> 本项目在Ubuntu 16.04基于tesseract 3.04，OpenCV2使用Python3.6进行开发<br>
 > apt依赖安装：<br>
->`sudo apt install tesseract-ocr=3.04.01-4 tesseract-ocr-chi-sim python python-tk python-pip libsm6 libxext6` <br><br>
+>`sudo apt install python3 python3-pip tesseract-ocr tesseract-ocr-chi-sim tzdata libsm6 libxext6 python3-tk -y` <br><br>
 > Python依赖安装：<br>
->`sudo pip install Pillow==5.0.0 numpy==1.14.1 opencv-contrib-python==3.4.0.12 pytesseract==0.2.0 matplotlib==2.1.2`<br><br>
+>`sudo pip3 install -r /idcardocr/requirements.txt`<br><br>
 > tessdata配置：<br>
 > `sudo cp tessdata/* /usr/share/tesseract-ocr/tessdata`<br>
 # 使用方法：
