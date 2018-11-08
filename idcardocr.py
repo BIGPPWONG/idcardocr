@@ -146,7 +146,7 @@ def find_name(crop_gray, crop_org):
         # print(max_loc)
         top_left = (max_loc[0] + w, max_loc[1] - int(20*x))
         bottom_right = (top_left[0] + int(700*x), top_left[1] + int(300*x))
-        result = cv2.UMat.get(crop_org)[top_left[1]:bottom_right[1], top_left[0]:bottom_right[0]]
+        result = cv2.UMat.get(crop_org)[top_left[1]-10:bottom_right[1], top_left[0]-10:bottom_right[0]]
         cv2.rectangle(crop_gray, top_left, bottom_right, 255, 2)
         # showimg(result)
         return cv2.UMat(result)
@@ -159,7 +159,7 @@ def find_sex(crop_gray, crop_org):
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
         top_left = (max_loc[0] + w, max_loc[1] - int(20*x))
         bottom_right = (top_left[0] + int(300*x), top_left[1] + int(300*x))
-        result = cv2.UMat.get(crop_org)[top_left[1]:bottom_right[1], top_left[0]:bottom_right[0]]
+        result = cv2.UMat.get(crop_org)[top_left[1]-10:bottom_right[1], top_left[0]-10:bottom_right[0]]
         cv2.rectangle(crop_gray, top_left, bottom_right, 255, 2)
         #showimg(crop_gray)
         return cv2.UMat(result)
@@ -172,7 +172,7 @@ def find_nation(crop_gray, crop_org):
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
         top_left = (max_loc[0] + w - int(20*x), max_loc[1] - int(20*x))
         bottom_right = (top_left[0] + int(500*x), top_left[1] + int(300*x))
-        result = cv2.UMat.get(crop_org)[top_left[1]:bottom_right[1], top_left[0]:bottom_right[0]]
+        result = cv2.UMat.get(crop_org)[top_left[1]-10:bottom_right[1], top_left[0]-10:bottom_right[0]]
         cv2.rectangle(crop_gray, top_left, bottom_right, 255, 2)
         #showimg(crop_gray)
         return cv2.UMat(result)
@@ -236,7 +236,7 @@ def find_address(crop_gray, crop_org):
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
         top_left = (max_loc[0] + w, max_loc[1] - int(20*x))
         bottom_right = (top_left[0] + int(1700*x), top_left[1] + int(550*x))
-        result = cv2.UMat.get(crop_org)[top_left[1]:bottom_right[1], top_left[0]:bottom_right[0]]
+        result = cv2.UMat.get(crop_org)[top_left[1]-10:bottom_right[1], top_left[0]-10:bottom_right[0]]
         cv2.rectangle(crop_gray, top_left, bottom_right, 255, 2)
         #showimg(crop_gray)
         return cv2.UMat(result)
@@ -250,7 +250,7 @@ def find_idnum(crop_gray, crop_org):
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
         top_left = (max_loc[0] + w, max_loc[1] - int(20*x))
         bottom_right = (top_left[0] + int(2300*x), top_left[1] + int(300*x))
-        result = cv2.UMat.get(crop_org)[top_left[1]:bottom_right[1], top_left[0]:bottom_right[0]]
+        result = cv2.UMat.get(crop_org)[top_left[1]-10:bottom_right[1], top_left[0]-10:bottom_right[0]]
         cv2.rectangle(crop_gray, top_left, bottom_right, 255, 2)
         #showimg(crop_gray)
         return cv2.UMat(result)
@@ -282,6 +282,7 @@ def showimg(img):
 def get_name(img):
         #    cv2.imshow("method3", img)
         #    cv2.waitKey()
+        print('name')
         _, _, red = cv2.split(img) #split 会自动将UMat转换回Mat
         red = cv2.UMat(red)
         red = hist_equal(red)
@@ -293,11 +294,13 @@ def get_name(img):
         # cv2.imwrite('name.png', red)
         #    img2 = Image.open('address.png')
         # img = Image.fromarray(cv2.UMat.get(red).astype('uint8'))
-        return get_result_vary_length(red, 'chi_sim', img, '-psm 7')
+        #return get_result_vary_length(red, 'chi_sim', img, '-psm 7')
+        return get_result_vary_length(red, 'chi_sim', img, '--psm 7')
         # return punc_filter(pytesseract.image_to_string(img, lang='chi_sim', config='-psm 13').replace(" ",""))
 
 def get_sex(img):
         _, _, red = cv2.split(img)
+        print('sex')
         red = cv2.UMat(red)
         red = hist_equal(red)
         red = cv2.adaptiveThreshold(red, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 151, 50)
@@ -307,18 +310,21 @@ def get_sex(img):
         red = img_resize(red, 150)
         # cv2.imwrite('sex.png', red)
         # img = Image.fromarray(cv2.UMat.get(red).astype('uint8'))
-        return get_result_fix_length(red, 1, 'sex', '-psm 10')
+        #return get_result_fix_length(red, 1, 'sex', '-psm 10')
+        return get_result_fix_length(red, 1, 'chi_sim', '--psm 10')
         # return pytesseract.image_to_string(img, lang='sex', config='-psm 10').replace(" ","")
 
 def get_nation(img):
         _, _, red = cv2.split(img)
+        print('nation')
         red = cv2.UMat(red)
         red = hist_equal(red)
         red = cv2.adaptiveThreshold(red, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 151, 50)
         red = img_resize(red, 150)
         # cv2.imwrite('nation.png', red)
         # img = Image.fromarray(cv2.UMat.get(red).astype('uint8'))
-        return get_result_fix_length(red, 1, 'nation', '-psm 10')
+        #return get_result_fix_length(red, 1, 'nation', '-psm 10')
+        return get_result_fix_length(red, 1, 'chi_sim', '--psm 10')
         # return pytesseract.image_to_string(img, lang='nation', config='-psm 13').replace(" ","")
 
 # def get_birth(year, month, day):
@@ -355,28 +361,35 @@ def get_nation(img):
 def get_address(img):
         #_, _, red = cv2.split(img)
         #red = cv2.medianBlur(red, 3)
+        print('address')
         _, _, red = cv2.split(img)
         red = cv2.UMat(red)
         red = hist_equal(red)
         red = cv2.adaptiveThreshold(red, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 151, 50)
         red = img_resize(red, 300)
-        img = img_resize(img, 300)
-        # cv2.imwrite('address_red.png', red)
-        #img = Image.fromarray(cv2.UMat.get(red).astype('uint8'))
-        return punc_filter(get_result_vary_length(red,'chi_sim', img, '-psm 6'))
+        #img = img_resize(img, 300)
+        #cv2.imwrite('address_red.png', red)
+        img = Image.fromarray(cv2.UMat.get(red).astype('uint8'))
+        #return punc_filter(get_result_vary_length(red,'chi_sim', img, '-psm 6'))
+        return punc_filter(get_result_vary_length(red, 'chi_sim', img, '--psm 6'))
         #return punc_filter(pytesseract.image_to_string(img, lang='chi_sim', config='-psm 3').replace(" ",""))
 
 def get_idnum_and_birth(img):
         _, _, red = cv2.split(img)
+        print('idnum')
         red = cv2.UMat(red)
         red = hist_equal(red)
         red = cv2.adaptiveThreshold(red, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 151, 50)
         red = img_resize(red, 150)
         # cv2.imwrite('idnum_red.png', red)
-        idnum_str = get_result_fix_length(red, 18, 'idnum', '-psm 8')
+        #idnum_str = get_result_fix_length(red, 18, 'idnum', '-psm 8')
+        # idnum_str = get_result_fix_length(red, 18, 'eng', '--psm 8 ')
+        img = Image.fromarray(cv2.UMat.get(red).astype('uint8'))
+        idnum_str = get_result_vary_length(red, 'eng', img, '--psm 8 ')
         return idnum_str, idnum_str[6:14]
 
 def get_result_fix_length(red, fix_length, langset, custom_config=''):
+    red_org = red
     cv2.fastNlMeansDenoising(red, red, 4, 7, 35)
     rec, red = cv2.threshold(red, 127, 255, cv2.THRESH_BINARY_INV)
     image, contours, hierarchy = cv2.findContours(red, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -420,11 +433,14 @@ def get_result_fix_length(red, fix_length, langset, custom_config=''):
     result_string = ''
     numset_contours.sort(key=lambda num: num[0])
     for x, y, w, h in numset_contours:
-        result_string += pytesseract.image_to_string(cv2.UMat.get(color_img)[y:y + h, x:x + w], lang=langset, config=custom_config)
+        result_string += pytesseract.image_to_string(cv2.UMat.get(red_org)[y-10:y + h + 10, x-10:x + w + 10], lang=langset, config=custom_config)
     # print(new_r)
+    # cv2.imwrite('fixlengthred.png', cv2.UMat.get(red_org)[y-10:y + h +10 , x-10:x + w + 10])
+    print(result_string)
     return result_string
 
 def get_result_vary_length(red, langset, org_img, custom_config=''):
+    red_org = red
     # cv2.fastNlMeansDenoising(red, red, 4, 7, 35)
     rec, red = cv2.threshold(red, 127, 255, cv2.THRESH_BINARY_INV)
     image, contours, hierarchy = cv2.findContours(red, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -460,8 +476,11 @@ def get_result_vary_length(red, langset, org_img, custom_config=''):
     # showimg(cv2.UMat.get(org_img)[y:y + h, x:x + w])
 
     result_string = ''
-    result_string += pytesseract.image_to_string(cv2.UMat.get(org_img)[y:y + h, x:x + w], lang=langset,
+    result_string += pytesseract.image_to_string(cv2.UMat.get(red_org)[y-10:y + h + 10, x-10:x + w + 10], lang=langset,
                                                  config=custom_config)
+    print(result_string)
+    # cv2.imwrite('varylength.png', cv2.UMat.get(org_img)[y:y + h, x:x + w])
+    # cv2.imwrite('varylengthred.png', cv2.UMat.get(red_org)[y:y + h, x:x + w])
     # numset_contours.sort(key=lambda num: num[0])
     # for x, y, w, h in numset_contours:
     #     result_string += pytesseract.image_to_string(cv2.UMat.get(color_img)[y:y + h, x:x + w], lang=langset, config=custom_config)
