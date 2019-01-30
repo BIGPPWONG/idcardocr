@@ -1,15 +1,10 @@
 pipeline {
-  agent {
-    dockerfile {
-      filename 'Dockerfile'
+    agent { docker { image 'python:3.6.4' } }
+    stages {
+        stage('build') {
+            steps {
+                sh 'python --version'
+            }
+        }
     }
-
-  }
-  stages {
-    stage('1') {
-      steps {
-        sh 'docker build -t test:0.1 .'
-      }
-    }
-  }
 }
