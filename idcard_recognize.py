@@ -27,7 +27,7 @@ class S(BaseHTTPRequestHandler):
     def _set_headers(self):
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
-        self.end_headers()
+        #self.end_headers()
 
     def do_GET(self):
         self._set_headers()
@@ -52,6 +52,8 @@ class S(BaseHTTPRequestHandler):
         result = process("tmp/%s.jpg"%filename)
         #print result
         self._set_headers()
+        self.send_header("Content-Length", str(len(json.dumps(result).encode('utf-8'))))
+        self.end_headers()
         self.wfile.write(json.dumps(result).encode('utf-8'))
 
 def http_server(server_class=ForkingServer, handler_class=S, port=8080):
